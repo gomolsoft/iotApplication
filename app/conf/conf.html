@@ -2,20 +2,24 @@
 
     <div ng-include="'app/components/navbar/navbar.html'"></div>
 
-    <div class="btn btn-primary"
+    <div ng-repeat="component in deviceList" class="col-md-3">
+        <div
+                class="btn btn-primary"
          data-drag="true"
          data-jqyoui-options="{revert: 'invalid'}"
-         ng-model="dragElem"
-         jqyoui-draggable="{animate:true, onStart:'startCallback(dragElem)'}"
-         ng-hide="!dragElem.title">
+                ng-model="component"
+                jqyoui-draggable="{animate:true, onStart:'startCallback(component)'}"
+                ng-hide="!component.name"
+                >
         <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
-        {{dragElem.title}}
+            {{component.name}}
+        </div>
     </div>
 
     <div class="thumbnail" data-drop="true"
          data-jqyoui-options
          ng-model="dropElem"
-         jqyoui-droppable="{onOut:'onOut', onOver:'onOver'}"
+         jqyoui-droppable="{onOut:'onOut', onOver:'onOver', onDrop:'onDrop'}"
          style='height:50px;'>
 
         <div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="dropElem"
@@ -23,6 +27,10 @@
              ng-hide="!dropElem.title">
             {{dropElem.title}}
         </div>
+    </div>
+
+    <div ng-repeat="component in deviceList" class="col-md-3 ">
+        {{component.name}}
     </div>
 
     <div class="footer">
