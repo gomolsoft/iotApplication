@@ -75,7 +75,15 @@ module app {
 
                 var elem = $scope.dragElem;
 
-                var idx = $scope.deviceList.forEach;
+                var idx = 0;
+                $scope.deviceList.forEach((elem) => {
+                        if (elem.valueOf() == $scope.dragElem) {
+                            $scope.deviceList.splice(idx);
+                            console.log('delete:' + idx);
+                        }
+                        idx++;
+                    }
+                );
 
                 $scope.$apply();
             };
