@@ -78,8 +78,10 @@ module app {
                 var idx = 0;
                 $scope.deviceList.forEach((elem) => {
                         if (elem.valueOf() == $scope.dragElem) {
-                            $scope.deviceList.splice(idx);
+                            $scope.deviceList.splice(idx, 1);
                             console.log('delete:' + idx);
+                            console.log('basedevices:' + basedevices);
+                            myService.one('device', $scope.dragElem.serialNo).post('done', $scope.dragElem);
                         }
                         idx++;
                     }

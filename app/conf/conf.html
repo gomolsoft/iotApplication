@@ -2,34 +2,40 @@
 
     <div ng-include="'app/components/navbar/navbar.html'"></div>
 
-    <div ng-repeat="component in deviceList" class="col-md-3">
-        <div
+    <div class="row">
+        <div ng-repeat="component in deviceList" class="col-xs-4 col-md-3">
+            <div
                 class="btn btn-primary"
-         data-drag="true"
-         data-jqyoui-options="{revert: 'invalid'}"
+                data-drag="true"
+                data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
                 ng-model="component"
-                jqyoui-draggable="{animate:true, onStart:'startCallback(component)'}"
+                jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:false, onStart:'startCallback(component)'}"
                 >
-        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                {{component.name}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="thumbnail" data-drop="true"
+             data-jqyoui-options
+             ng-model="dropElem"
+             jqyoui-droppable="{onOut:'onOut', onOver:'onOver', onDrop:'onDrop'}"
+             style='height:50px;'>
+
+            <div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="dropElem"
+                 jqyoui-draggable
+                 ng-hide="!dropElem.title">
+                {{dropElem.title}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-repeat="component in deviceList" class="col-md-3 ">
             {{component.name}}
         </div>
-    </div>
-
-    <div class="thumbnail" data-drop="true"
-         data-jqyoui-options
-         ng-model="dropElem"
-         jqyoui-droppable="{onOut:'onOut', onOver:'onOver', onDrop:'onDrop'}"
-         style='height:50px;'>
-
-        <div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="dropElem"
-             jqyoui-draggable
-             ng-hide="!dropElem.title">
-            {{dropElem.title}}
-        </div>
-    </div>
-
-    <div ng-repeat="component in deviceList" class="col-md-3 ">
-        {{component.name}}
     </div>
 
     <div class="footer">
