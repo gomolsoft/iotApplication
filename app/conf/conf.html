@@ -5,62 +5,117 @@
     </div>
 
     <div class="container">
+
+        <!-- Sensoren -->
         <div class="row">
+
             <div class="col-md-1">Sensoren</div>
+
             <div class="col-md-11" style='height:200px;'>
+
                 <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', sensors:'!'}"
                      class="col-xs-4 col-md-3"
                         >
                     <div
-                            class="btn btn-primary"
+                            class="panel panel-default"
                             data-drag="true"
                             data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
                             ng-model="component"
-                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:true, onStart:'startCallback(component)'}"
+                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:false}"
                             >
-                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
-                        {{component.name}}
+                        <span class="glyphicon glyphicon-cloud"
+                              aria-hidden="true"
+                              editable-text="component.name"
+                              e-form="textBtnForm"
+                              e-required
+                              e-placeholder="Bitte Name eingeben"
+                              e-style="color: green"
+                                >
+                            {{component.name}}
+                        </span>
+                        <button class="btn btn-link"
+                                ng-click="textBtnForm.$show()"
+                                ng-hide="textBtnForm.$visible"
+                                >
+                            <span class="glyphicon glyphicon glyphicon-pencil"></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Verknüpfung -->
         <div class="row">
             <div class="col-md-1">Logik Verknüpfung</div>
-            <div class="col-md-11">
-                <div class="thumbnail" data-drop="true"
+
+            <div class="col-md-5 panel panel-default">
+                <div class=""
+                     data-drop="true"
                      data-jqyoui-options
                      ng-model="dropElem"
-                     jqyoui-droppable="{onOut:'onOut', onOver:'onOver', onDrop:'onDrop'}"
-                     style='height:200px;'>
+                     jqyoui-droppable="{onDrop:'onDrop'}"
+                        >
 
-                    <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'CONFIGURING'}"
-                         class="col-xs-4 col-md-3 btn btn-success"
-                         data-drag="false"
-                         data-jqyoui-options
-                         ng-model="component"
-                         jqyoui-draggable
+                    <div class="" style='height:200px;' ng-hide="isConfModeEnabled()"> Hier Komponenten ziehen ..</div>
+
+                    <a ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'CONFIGURING', sensors:'!'}"
+                       class="btn btn-primary btn-lg btn-block"
+                       data-drag="false"
+                       data-jqyoui-options
+                       ng-model="component"
+                       jqyoui-draggable
+                       ng-href="#/config/{{component.serialNo}}"
+                       ng-click="doTask(component);"
+                       role="button"
                             >
+
+                        <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
                         {{component.name}}
-                    </div>
+                    </a>
+
+
+                    <a ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'CONFIGURING', actors:'!'}"
+                       class="btn btn-primary btn-lg btn-block"
+                       data-drag="false"
+                       data-jqyoui-options
+                       ng-model="component"
+                       jqyoui-draggable
+                       ng-href="#/config/{{component.serialNo}}"
+                       ng-click="doTask(component);"
+                       role="button"
+                            >
+
+                        <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+                        {{component.name}}
+                    </a>
                 </div>
             </div>
+
+            <!-- Edit-snippet -->
+            <div class="col-md-5">
+                <div ui-view></div>
+            </div>
+
+
         </div>
 
+
+        <!-- Aktualtoren -->
         <div class="row">
             <div class="col-md-1">Aktuatoren</div>
             <div class="col-md-11" style='height:200px;'>
                 <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
                      class="col-xs-4 col-md-3"
                         >
+
                     <div
-                            class="btn btn-primary"
+                            class="btn btn-default btn-block"
                             data-drag="true"
                             data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
                             ng-model="component"
-                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:true, onStart:'startCallback(component)'}"
+                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:false}"
                             >
-                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
                         {{component.name}}
                     </div>
                 </div>

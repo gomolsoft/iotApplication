@@ -1,0 +1,21 @@
+<!-- componentEdit.html -->
+<h3>My Edit</h3>
+<div class="center-block">
+    <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
+         class="col-xs-4 col-md-3"
+            >
+
+        <div
+                class="btn btn-primary"
+                data-drag="true"
+                data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
+                ng-model="component"
+                jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:true}"
+                >
+
+            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+            {{component.name}}
+        </div>
+    </div>
+
+</div>

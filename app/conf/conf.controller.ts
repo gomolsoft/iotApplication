@@ -20,8 +20,10 @@ module app {
         dropSignal: string
 
         onDrop: Function
+        doTask(c:IComponent): void;
+        isConfModeEnabled(): boolean;
 
-        deviceList: Array<IComponent>[]
+        deviceList: IComponent[]
     }
 
     export class ConfCtrl {
@@ -35,35 +37,60 @@ module app {
             this.scope = $scope;
             this.myService = myService;
 
+
             $scope.dropElem = null;
 
-            var basedevices = myService.all('device/devices');
+            $scope.onDrop = () => this.myOnDrop();
+            $scope.doTask = (c:IComponent) => this.doTask(c);
+
+            this.loadListElem();
+
+            $scope.isConfModeEnabled = () => this.confModeEnabled();
+        }
+
+        private  loadListElem() {
+            var basedevices = this.myService.all('device/devices');
 
             basedevices
                 .getList()
-                .then((components:Array<IComponent>[]) => {
-                    $scope.deviceList = components;
+                .then((components:IComponent[]) => {
+                    this.scope.deviceList = components;
                 });
+        }
 
-            $scope.onDrop = () => this.myOnDrop();
+        private doTask(c:IComponent) {
+            console.log(c);
+        }
 
+        private confModeEnabled():boolean {
+            var hit = false;
+
+            if (this.scope.deviceList == undefined) return hit;
+
+            this.scope.deviceList.forEach(c => {
+                    if (c.configMode == 'CONFIGURING') {
+                        hit = true;
+                        return true;
+                    }
+                }
+            );
+            return hit;
         }
 
         private myOnDrop() {
-            console.log('(inside)onDrop');
-            this.scope.dropSignal = 'alert ';
             console.log(this.scope.dropElem.serialNo);
+            this.scope.dropSignal = 'alert ';
 
             this.myService
                 .one('device', this.scope.dropElem.serialNo)
                 .post('basicRegister', this.scope.dropElem)
-                .then((components:Array<IComponent>[]) => {
+                .then(
+                (components:IComponent[]) => {
                     this.scope.deviceList = components;
-                });
+                }
+            );
 
             this.scope.$apply();
-
-
         }
     }
 
