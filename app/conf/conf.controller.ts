@@ -11,15 +11,11 @@ module app {
     interface IComponent {
         name: string
         serialNo: string
-
-    }
-
-    interface IDragElement {
-        title: string;
+        configured: boolean
+        configMode: string
     }
 
     interface IConfScope extends ng.IScope {
-        dragElem: IComponent
         dropElem: IComponent
         dropSignal: string
 
@@ -39,14 +35,13 @@ module app {
         constructor($scope:IConfScope, myService:restangular.IService) {
             var basedevices = myService.all('device/devices');
 
-            basedevices.getList()
+            basedevices
+                .getList()
                 .then((components:Array<IComponent>[]) => {
                     $scope.deviceList = components;
-                    console.log("load");
                 });
 
 
-            $scope.dragElem = null; //{title: 'Sandro'};
             $scope.dropElem = null;
 
 
@@ -67,33 +62,21 @@ module app {
             $scope.onDrop = function (/* event, ui */) {
                 console.log('onDrop');
                 $scope.dropSignal = 'alert ';
-                $scope.dropElem = $scope.dragElem;
-                // $scope.dragElem = null;
-                console.log($scope.dropElem.name);
+                console.log($scope.dropElem.serialNo);
 
-                var length = $scope.deviceList.length; // indexOf($scope.dropElem);
-
-                var elem = $scope.dragElem;
-
-                var idx = 0;
-                $scope.deviceList.forEach((elem) => {
-                        if (elem.valueOf() == $scope.dragElem) {
-                            $scope.deviceList.splice(idx, 1);
-                            console.log('delete:' + idx);
-                            console.log('basedevices:' + basedevices);
-                            myService.one('device', $scope.dragElem.serialNo).post('done', $scope.dragElem);
-                        }
-                        idx++;
-                    }
-                );
+                myService
+                    .one('device', $scope.dropElem.serialNo)
+                    .post('basicRegister', $scope.dropElem)
+                    .then((components:Array<IComponent>[]) => {
+                        $scope.deviceList = components;
+                    });
 
                 $scope.$apply();
             };
 
             $scope.startCallback = function (event, ui, dragElem) {
-                console.log('You started dragging: ', dragElem.name);
+                console.log('Start dragging: ', dragElem.name);
                 $scope.dropSignal = 'alert alert-warning show';
-                $scope.dragElem = dragElem;
 
                 $scope.$apply();
             };

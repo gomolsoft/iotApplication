@@ -1,35 +1,72 @@
 <div class="container">
 
     <div ng-include="'app/components/navbar/navbar.html'"></div>
-
-    <div class="row">
-        <div ng-repeat="component in deviceList" class="col-xs-4 col-md-3">
-            <div
-                class="btn btn-primary"
-                data-drag="true"
-                data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
-                ng-model="component"
-                jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:false, onStart:'startCallback(component)'}"
-                >
-                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
-                {{component.name}}
-            </div>
-        </div>
+    <div class="jumbotron"><h2>Configuration</h2> der Devices
     </div>
 
-    <div class="row">
-        <div class="thumbnail" data-drop="true"
-             data-jqyoui-options
-             ng-model="dropElem"
-             jqyoui-droppable="{onOut:'onOut', onOver:'onOver', onDrop:'onDrop'}"
-             style='height:50px;'>
-
-            <div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="dropElem"
-                 jqyoui-draggable
-                 ng-hide="!dropElem.title">
-                {{dropElem.title}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">Sensoren</div>
+            <div class="col-md-11" style='height:200px;'>
+                <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', sensors:'!'}"
+                     class="col-xs-4 col-md-3"
+                        >
+                    <div
+                            class="btn btn-primary"
+                            data-drag="true"
+                            data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
+                            ng-model="component"
+                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:true, onStart:'startCallback(component)'}"
+                            >
+                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                        {{component.name}}
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-1">Logik Verknüpfung</div>
+            <div class="col-md-11">
+                <div class="thumbnail" data-drop="true"
+                     data-jqyoui-options
+                     ng-model="dropElem"
+                     jqyoui-droppable="{onOut:'onOut', onOver:'onOver', onDrop:'onDrop'}"
+                     style='height:200px;'>
+
+                    <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'CONFIGURING'}"
+                         class="col-xs-4 col-md-3 btn btn-success"
+                         data-drag="false"
+                         data-jqyoui-options
+                         ng-model="component"
+                         jqyoui-draggable
+                            >
+                        {{component.name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1">Aktuatoren</div>
+            <div class="col-md-11" style='height:200px;'>
+                <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
+                     class="col-xs-4 col-md-3"
+                        >
+                    <div
+                            class="btn btn-primary"
+                            data-drag="true"
+                            data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
+                            ng-model="component"
+                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:true, onStart:'startCallback(component)'}"
+                            >
+                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                        {{component.name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
