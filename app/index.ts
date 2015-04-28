@@ -8,7 +8,8 @@
 module app {
   'use strict';
 
-    angular.module('app', ['ngAnimate',
+    angular.module('app', [
+        'ngAnimate',
         'ngCookies',
         'ngTouch',
         'ngSanitize',
@@ -17,16 +18,18 @@ module app {
         'mgcrea.ngStrap',
         'ngDragDrop',
         'xeditable'])
+
         .run(function (editableOptions) {
             editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
         })
+
       .controller('MainCtrl', MainCtrl)
       .controller('NavbarCtrl', NavbarCtrl)
       .controller('ConfCtrl', ConfCtrl)
 
         .config(['RestangularProvider',
             (RestangularProvider:restangular.IProvider) => {
-                RestangularProvider.setBaseUrl('http://localhost:8080');
+                RestangularProvider.setBaseUrl('http://192.168.0.13:8080');
             }
         ])
 

@@ -73,7 +73,6 @@
                         {{component.name}}
                     </a>
 
-
                     <a ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'CONFIGURING', actors:'!'}"
                        class="btn btn-primary btn-lg btn-block"
                        data-drag="false"
@@ -95,7 +94,6 @@
             <div class="col-md-5">
                 <div ui-view></div>
             </div>
-
 
         </div>
 

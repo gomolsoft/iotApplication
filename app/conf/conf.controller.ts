@@ -17,7 +17,6 @@ module app {
 
     interface IConfScope extends ng.IScope {
         dropElem: IComponent
-        dropSignal: string
 
         onDrop: Function
         doTask(c:IComponent): void;
@@ -79,19 +78,16 @@ module app {
 
         private myOnDrop() {
             console.log(this.scope.dropElem.serialNo);
-            this.scope.dropSignal = 'alert ';
 
             this.myService
-                .one('device', this.scope.dropElem.serialNo)
-                .post('basicRegister', this.scope.dropElem)
+                .one("device", this.scope.dropElem.serialNo)
+                .post('basicRegister')
                 .then(
                 (components:IComponent[]) => {
                     this.scope.deviceList = components;
                 }
             );
-
             this.scope.$apply();
         }
     }
-
 }
