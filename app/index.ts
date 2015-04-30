@@ -2,8 +2,32 @@
 
 /// <reference path="main/main.controller.ts" />
 /// <reference path="../app/conf/conf.controller.ts" />
+/// <reference path="../app/conf/sensorconf.controller.ts" />
 /// <reference path="../app/components/navbar/navbar.controller.ts" />
+/// <reference path="../app/conf/DropService.ts" />
 
+interface IComponent {
+    name: string
+    serialNo: string
+    configured: boolean
+    configMode: string
+    sensors: ISensors[]
+}
+
+interface IPropertie {
+    name: string
+
+    rangeFrom: number
+    rangeTo: number
+    unityName: string
+
+}
+
+interface ISensors {
+    name: string
+    sensorType: string
+    properties: IPropertie[]
+}
 
 module app {
   'use strict';
@@ -23,9 +47,12 @@ module app {
             editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
         })
 
+        .service('dropService', DropService)
+
       .controller('MainCtrl', MainCtrl)
       .controller('NavbarCtrl', NavbarCtrl)
       .controller('ConfCtrl', ConfCtrl)
+        .controller('SensorConfCtrl', SensorConfCtrl)
 
         .config(['RestangularProvider',
             (RestangularProvider:restangular.IProvider) => {
@@ -50,15 +77,15 @@ module app {
             templateUrl: 'app/conf/conf.html',
             controller: 'ConfCtrl',
             abstract: false,
-            onEnter: function () {
+            /* onEnter: function () {
                 console.log("OnEnter: contacts");
-            }
+             }*/
         })
 
         .state('config.edit', {
             url: '/:serialNo',
             templateUrl: 'app/conf/componentEdit.html',
-            controller: 'ConfCtrl'
+            controller: 'SensorConfCtrl'
 
         })
 

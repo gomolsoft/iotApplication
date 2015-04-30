@@ -1,21 +1,40 @@
 <!-- componentEdit.html -->
-<h3>My Edit</h3>
+<h3>Configuration des Sensors</h3>
+<h4>Bitte legen Sie in den Sensor die Aktoren an, die Sie konfigurieren möchten</h4>
 <div class="center-block">
-    <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
-         class="col-xs-4 col-md-3"
-            >
 
-        <div
-                class="btn btn-primary"
-                data-drag="true"
-                data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
-                ng-model="component"
-                jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:true}"
-                >
+    <div class="row">
+        <!-- Sensoren -->
+        <div ng-repeat="sensor in dropElem.sensors">
+            {{sensor.name}}
+            <div class="col-md-3 panel panel-default">
+                <div class=""
+                     data-drop="true"
+                     data-jqyoui-options
+                     ng-model="dropElem"
+                     jqyoui-droppable="{onDrop:'onDrop'}"
+                        >
 
-            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
-            {{component.name}}
+
+                    <div class="" style='height:200px;' ng-hide="isConfModeEnabled()">Bitte hier einen Sensor ziehen
+                        ..
+                    </div>
+
+                </div>
+            </div>
+
         </div>
+
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11" style='height:200px;'>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>Serial: {{ dropElem.serialNo }}</div>
     </div>
 
 </div>

@@ -8,12 +8,6 @@ module app {
 
     //import IService = restangular.IService;
 
-    interface IComponent {
-        name: string
-        serialNo: string
-        configured: boolean
-        configMode: string
-    }
 
     interface IConfScope extends ng.IScope {
         dropElem: IComponent
@@ -26,24 +20,26 @@ module app {
 
         componentListViewMode: string
         componentListView: string
-        init():void
+        init(): void
     }
 
     export class ConfCtrl {
         /* @ngInject */
-        static $inject = ["$scope", "Restangular"];
+        static $inject = ['$scope', 'Restangular', 'dropService'];
 
         scope:IConfScope;
         myService:restangular.IService;
+        dropService:DropService;
 
-        constructor($scope:IConfScope, myService:restangular.IService) {
+        constructor($scope:IConfScope, myService:restangular.IService, dropService:DropService) {
             this.scope = $scope;
             this.myService = myService;
+            this.dropService = dropService;
 
             $scope.componentListViewMode = 'S';
             $scope.componentListView = 'Sensoren';
 
-            $scope.dropElem = null;
+            $scope.dropElem = dropService.getSensor();
 
             $scope.onDrop = () => this.myOnDrop();
             $scope.init = () => this.init();
@@ -56,7 +52,12 @@ module app {
         }
 
         private init() {
-            console.log("init");
+            this.myService.one('device/reinit').get().then(
+                (components:IComponent[]) => {
+                    this.scope.deviceList = components;
+                });
+            this.dropService.setSensor(null);
+            console.log('init (ConfCtrl)');
         }
 
         private  loadListElem() {
@@ -90,9 +91,9 @@ module app {
 
         private myOnDrop() {
             console.log(this.scope.dropElem.serialNo);
-
+            this.dropService.setSensor(this.scope.dropElem);
             this.myService
-                .one("device", this.scope.dropElem.serialNo)
+                .one('device', this.scope.dropElem.serialNo)
                 .post('basicRegister')
                 .then(
                 (components:IComponent[]) => {
@@ -100,10 +101,10 @@ module app {
                 }
             );
 
-            this.scope.componentListView = "Aktuatoren";
-            this.scope.componentListViewMode = "A";
+            this.scope.componentListView = 'Aktuatoren';
+            this.scope.componentListViewMode = 'A';
 
-            window.location.href = "#/config/" + this.scope.dropElem.serialNo;
+            //window.location.href = "#/config/" + this.scope.dropElem.serialNo;
 
             this.scope.$apply();
         }
