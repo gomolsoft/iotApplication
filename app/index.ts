@@ -48,13 +48,18 @@ module app {
         .state('config', {
             url: '/config',
             templateUrl: 'app/conf/conf.html',
-            controller: 'ConfCtrl'
+            controller: 'ConfCtrl',
+            abstract: false,
+            onEnter: function () {
+                console.log("OnEnter: contacts");
+            }
         })
 
         .state('config.edit', {
             url: '/:serialNo',
             templateUrl: 'app/conf/componentEdit.html',
             controller: 'ConfCtrl'
+
         })
 
     ;

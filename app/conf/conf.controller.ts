@@ -19,10 +19,14 @@ module app {
         dropElem: IComponent
 
         onDrop: Function
-        doTask(c:IComponent): void;
-        isConfModeEnabled(): boolean;
+        doTask(c:IComponent): void
+        isConfModeEnabled(): boolean
 
         deviceList: IComponent[]
+
+        componentListViewMode: string
+        componentListView: string
+        init():void
     }
 
     export class ConfCtrl {
@@ -36,15 +40,23 @@ module app {
             this.scope = $scope;
             this.myService = myService;
 
+            $scope.componentListViewMode = 'S';
+            $scope.componentListView = 'Sensoren';
 
             $scope.dropElem = null;
 
             $scope.onDrop = () => this.myOnDrop();
+            $scope.init = () => this.init();
             $scope.doTask = (c:IComponent) => this.doTask(c);
 
             this.loadListElem();
 
             $scope.isConfModeEnabled = () => this.confModeEnabled();
+
+        }
+
+        private init() {
+            console.log("init");
         }
 
         private  loadListElem() {
@@ -87,6 +99,12 @@ module app {
                     this.scope.deviceList = components;
                 }
             );
+
+            this.scope.componentListView = "Aktuatoren";
+            this.scope.componentListViewMode = "A";
+
+            window.location.href = "#/config/" + this.scope.dropElem.serialNo;
+
             this.scope.$apply();
         }
     }
