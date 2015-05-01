@@ -10,6 +10,7 @@ module app {
         onDrop: Function;
 
         dropElem: IComponent
+        dropSensor: IComponent
     }
 
     export class SensorConfCtrl {
@@ -32,10 +33,10 @@ module app {
         }
 
         private myOnDrop(sensor:ISensors) {
-            console.log("Aktor:" + this.scope.dropElem.serialNo);
+            console.log("Aktor:" + this.scope.dropSensor.serialNo);
             console.log("Sensor:" + sensor.name);
 
-            this.componentHandler.onActorDrop(this.scope.dropElem);
+            this.componentHandler.onActorDrop(this.scope.dropSensor);
 
             this.scope.$apply();
         }
