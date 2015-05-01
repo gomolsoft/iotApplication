@@ -7,14 +7,14 @@
     <div class="container">
 
         <!-- Sensoren -->
-        <div class="row">
+        <div class="row" ng-if="componentListViewMode=='S'">
 
             <div class="col-md-1">{{componentListView}}</div>
 
-            <div class="col-md-11" style='height:200px;'>
+            <div class="col-md-11" style='margin:20px;'>
 
                 <!-- Sensoren -->
-                <div ng-if="componentListViewMode=='S'"
+                <div
                      ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', sensors:'!'}"
                      class="col-xs-4 col-md-3"
                         >
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <!-- Aktualtoren -->
+                <!-- Aktualtoren 
                 <div ng-if="componentListViewMode=='A'"
                      ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
                      class="col-xs-4 col-md-3"
@@ -61,7 +61,7 @@
                         {{component.name}}
                     </div>
                 </div>
-
+                -->
 
             </div>
         </div>
@@ -69,6 +69,7 @@
         <!-- Verknüpfung -->
         <div class="row">
             <div class="col-md-1">Logik Verknüpfung</div>
+
 
             <div class="col-md-3 panel panel-default">
                 <div class=""
@@ -114,16 +115,18 @@
                 </div>
             </div>
 
-            <!-- Edit-snippet -->
+        </div>
+
+        <div class="row">
+
+            <!-- Sensor-detail-snippet -->
             <div class="col-md-8">
                 <div ui-view></div>
             </div>
-
         </div>
 
-
-        <!-- Aktualtoren
-        <div class="row">
+        <!-- Aktualtoren -->
+        <div class="row" ng-if="componentListViewMode=='A'">
             <div class="col-md-1">Aktuatoren</div>
             <div class="col-md-11" style='height:200px;'>
                 <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
@@ -143,18 +146,20 @@
                 </div>
             </div>
         </div>
-        -->
+        <!-- -->
 
     </div>
 
+    <!--
     <div class="row">
         <div ng-repeat="component in deviceList" class="col-md-3 ">
             {{component.name}}
         </div>
     </div>
+    -->
 
     <div class="footer">
-        <p>With ♥ from <a href="https://twitter.com/Swiip">@Swiip</a></p>
+        <p>With ♥ from <a href="//#">@Mold-Soft GmbH</a></p>
     </div>
 
 </div>

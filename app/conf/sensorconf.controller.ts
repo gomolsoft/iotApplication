@@ -7,6 +7,8 @@ module app {
     'use strict';
 
     interface ISensorConfScope extends ng.IScope {
+        onDrop: Function;
+
         dropElem: IComponent
         init(): void
     }
@@ -27,6 +29,7 @@ module app {
             $scope.dropElem = dropService.getSensor();
 
             $scope.init = () => this.init();
+            $scope.onDrop = () => this.myOnDrop();
 
             console.log('constructor (SensorConfCtrl)');
         }
@@ -39,7 +42,7 @@ module app {
             var hit = false;
             this.dropService.getSensor();
 
-            return false;
+            return true;
         }
 
         private myOnDrop() {

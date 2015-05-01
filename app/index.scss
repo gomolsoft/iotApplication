@@ -13,7 +13,32 @@
   }
 }
 
+.vertical-center {
+  min-height: 100%;
+  min-height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.drop-container {
+  position: relative;
+  height: 14rem;
+
+}
+
+.drop-container .drop-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed deeppink;
+}
+
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector
 // endinjector
+
