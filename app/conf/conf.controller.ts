@@ -32,7 +32,6 @@ module app {
         };
 
         constructor($scope:IConfScope, componentHandler:ComponentHandler, componentService:ComponentService) {
-            /** **/
             this.scope = $scope;
             this.componentHandler = componentHandler;
 
