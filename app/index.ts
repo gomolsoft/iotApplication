@@ -14,6 +14,12 @@ interface IComponent {
     sensors: ISensors[]
 }
 
+interface ISensors {
+    name: string
+    sensorType: string
+    properties: IPropertie[]
+}
+
 interface IPropertie {
     name: string
 
@@ -23,11 +29,6 @@ interface IPropertie {
 
 }
 
-interface ISensors {
-    name: string
-    sensorType: string
-    properties: IPropertie[]
-}
 
 module app {
   'use strict';

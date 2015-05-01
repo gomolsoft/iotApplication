@@ -35,5 +35,19 @@ module app {
             console.log('init (SensorConfCtrl)');
         }
 
+        private confModeEnabled():boolean {
+            var hit = false;
+            this.dropService.getSensor();
+
+            return false;
+        }
+
+        private myOnDrop() {
+            console.log(this.scope.dropElem.serialNo);
+            this.dropService.onSensorDrop(this.scope.dropElem);
+
+            this.scope.$apply();
+        }
+
     }
 }

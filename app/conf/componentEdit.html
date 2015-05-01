@@ -3,34 +3,58 @@
 <h4>Bitte legen Sie in den Sensor die Aktoren an, die Sie konfigurieren möchten</h4>
 <div class="center-block">
 
+    <!-- Verknüpfung -->
     <div class="row">
-        <!-- Sensoren -->
-        <div ng-repeat="sensor in dropElem.sensors">
-            {{sensor.name}}
-            <div class="col-md-3 panel panel-default">
-                <div class=""
-                     data-drop="true"
-                     data-jqyoui-options
-                     ng-model="dropElem"
-                     jqyoui-droppable="{onDrop:'onDrop'}"
+        <div class="col-md-1">Logik Verknüpfung</div>
+
+        <div class="col-md-3 panel panel-default">
+            <div class=""
+                 data-drop="true"
+                 data-jqyoui-options
+                 ng-model="dropElem"
+                 jqyoui-droppable="{onDrop:'onDrop'}"
+                    >
+
+                <a ng-repeat="sensor in dropElem.sensors"
+                   class="btn btn-primary btn-lg btn-block"
+                   data-drag="false"
+                   data-jqyoui-options
+                   ng-model="sensor"
+                   jqyoui-draggable
+                   ng-href="#/sensor/{{component.serialNo}}"
+                   role="button"
                         >
 
+                    <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+                </a>
+                {{component.name}}
 
-                    <div class="" style='height:200px;' ng-hide="isConfModeEnabled()">Bitte hier einen Sensor ziehen
-                        ..
-                    </div>
-
+                <div class="" style='height:200px;' ng-hide="isConfModeEnabled()">Bitte hier einen Sensor ziehen
+                    ..
                 </div>
-            </div>
 
+                <a ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'CONFIGURING', actors:'!'}"
+                   class="btn btn-primary btn-lg btn-block"
+                   data-drag="false"
+                   data-jqyoui-options
+                   ng-model="component"
+                   jqyoui-draggable
+                   ng-href="#/config/{{component.serialNo}}"
+                   ng-click="doTask(component);"
+                   role="button"
+                        >
+
+                    <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+                    {{component.name}}
+                </a>
+            </div>
         </div>
 
-
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-11" style='height:200px;'>
-            </div>
+        <!-- Edit-snippet -->
+        <div class="col-md-8">
+            <div ui-view></div>
         </div>
+
     </div>
 
     <div class="row">
