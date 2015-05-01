@@ -1,0 +1,34 @@
+<!-- componentEdit.html -->
+<h5>Bitte die Verpnüpfung Configurieren</h5>
+<h6>Bitte legen Sie in den gewünschten Aktor in die Drop-Zone, mit dem Sie eine Aktion durchführen wollen...</h6>
+<div class="center-block">
+
+    <!-- Verknüpfung -->
+    <div class="row">
+        <div class="col-md-10 ">
+            <div class="col-md-1"></div>
+            <div class="col-md-5 panel panel-default"
+                 style="margin: 5px; margin-bottom:10px;"
+                 ng-repeat="sensor in dropElem.sensors"
+                 data-drop="true"
+                 data-jqyoui-options
+                 ng-model="dropElem"
+                 jqyoui-droppable="{onDrop:'onDrop'}"
+                    >
+
+                <div class="vertical-center drop-text ">
+                    Bitte hier einen Aktuator für <span class="label label-primary">{{ sensor.name }}</span> ziehen
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <!--
+        <div class="row">
+            <div>Serial: {{ dropElem.serialNo }}</div>
+        </div>
+    -->
+</div>

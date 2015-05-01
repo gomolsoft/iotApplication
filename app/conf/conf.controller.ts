@@ -6,89 +6,85 @@
 module app {
     'use strict';
 
-    //import IService = restangular.IService;
-
-    interface IComponent {
-        name: string
-        serialNo: string
-        configured: boolean
-        configMode: string
-    }
-
     interface IConfScope extends ng.IScope {
         dropElem: IComponent
-        dropSignal: string
 
-        onOver: Function
-        onOut: Function
         onDrop: Function
-        startCallback: Function
-        stopCallback: Function
+        doTask(c:IComponent): void
+        isConfModeEnabled(): boolean
 
-        deviceList: Array<IComponent>[]
+        deviceList: IComponent[]
+
+        componentListViewMode: string
+        componentListView: string
+        init(): void
     }
 
     export class ConfCtrl {
         /* @ngInject */
-        static $inject = ["$scope", "Restangular"];
+        static $inject = ['$scope', 'ComponentHandler', 'ComponentService'];
 
-        constructor($scope:IConfScope, myService:restangular.IService) {
-            var basedevices = myService.all('device/devices');
+        scope:IConfScope;
+        componentHandler:ComponentHandler;
 
-            basedevices
-                .getList()
-                .then((components:Array<IComponent>[]) => {
-                    $scope.deviceList = components;
-                });
+        updateList = (components:IComponent[]) => {
+            this.scope.deviceList = components;
+        };
+
+        constructor($scope:IConfScope, componentHandler:ComponentHandler, componentService:ComponentService) {
+            this.scope = $scope;
+            this.componentHandler = componentHandler;
+
+            componentService.updateListTask = this.updateList;
+
+            $scope.componentListViewMode = 'S';
+            $scope.componentListView = 'Sensoren';
+
+            $scope.onDrop = () => this.myOnDrop();
+            $scope.init = () => this.init();
+            $scope.doTask = (c:IComponent) => this.doTask(c);
+
+            componentService.updateListTask();
+
+            $scope.isConfModeEnabled = () => this.confModeEnabled();
+        }
+
+        private init() {
+            this.componentHandler.clearSelection();
+            console.log('init (ConfCtrl)');
+        }
 
 
-            $scope.dropElem = null;
+        private doTask(c:IComponent) {
+            console.log(c);
+        }
+
+        private confModeEnabled():boolean {
+            var hit = false;
+
+            if (this.scope.deviceList == undefined) return hit;
+
+            this.scope.deviceList.forEach(c => {
+                    if (c.configMode == 'CONFIGURING') {
+                        hit = true;
+                        return true;
+                    }
+                }
+            );
+            return hit;
+        }
 
 
-            $scope.onOver = function (/* event, ui */) {
-                console.log('onOver');
-                $scope.dropSignal = 'alert alert-success show';
+        private myOnDrop() {
+            console.log(this.scope.dropElem.serialNo);
+            this.componentHandler.onSensorDrop(this.scope.dropElem);
 
-                $scope.$apply();
-            };
+            this.scope.componentListView = 'Aktuatoren';
+            this.scope.componentListViewMode = 'A';
 
-            $scope.onOut = function (/* event, ui */) {
-                console.log('onOut');
-                $scope.dropSignal = 'alert alert-warning show';
+            //window.location.href = "#/config/" + this.scope.dropElem.serialNo;
 
-                $scope.$apply();
-            };
-
-            $scope.onDrop = function (/* event, ui */) {
-                console.log('onDrop');
-                $scope.dropSignal = 'alert ';
-                console.log($scope.dropElem.serialNo);
-
-                myService
-                    .one('device', $scope.dropElem.serialNo)
-                    .post('basicRegister', $scope.dropElem)
-                    .then((components:Array<IComponent>[]) => {
-                        $scope.deviceList = components;
-                    });
-
-                $scope.$apply();
-            };
-
-            $scope.startCallback = function (event, ui, dragElem) {
-                console.log('Start dragging: ', dragElem.name);
-                $scope.dropSignal = 'alert alert-warning show';
-
-                $scope.$apply();
-            };
-
-            $scope.stopCallback = function (event, ui, dragElem) {
-                console.log('Stop dragging: ', dragElem.name);
-                $scope.dropSignal = 'alert alert-info ';
-
-                $scope.$apply();
-            };
-
+            this.scope.$apply();
         }
     }
-
 }
