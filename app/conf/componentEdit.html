@@ -12,8 +12,8 @@
                  ng-repeat="sensor in dropElem.sensors"
                  data-drop="true"
                  data-jqyoui-options
-                 ng-model="dropElem"
-                 jqyoui-droppable="{onDrop:'onDrop'}"
+                 ng-model="dropActuator"
+                 jqyoui-droppable="{onDrop:'onDrop(sensor)'}"
                     >
 
                 <div class="vertical-center drop-text ">

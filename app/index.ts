@@ -21,10 +21,10 @@ interface IComponent {
 interface ISensors {
     name: string
     sensorType: string
-    properties: IPropertie[]
+    properties: IProperty[]
 }
 
-interface IPropertie {
+interface IProperty {
     name: string
 
     rangeFrom: number

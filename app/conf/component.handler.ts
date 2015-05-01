@@ -24,6 +24,13 @@ class ComponentHandler {
         console.log('onDrop myService' + dropElement.serialNo);
     }
 
+    onActorDrop(dropElement:IComponent) {
+        this.component = dropElement;
+        this.componentService.onSensorDrop(dropElement);
+
+        console.log('onDrop myService' + dropElement.serialNo);
+    }
+
     clearSelection() {
         this.componentService.reinit();
         this.component = null;

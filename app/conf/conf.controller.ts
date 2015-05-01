@@ -22,18 +22,22 @@ module app {
 
     export class ConfCtrl {
         /* @ngInject */
-        static $inject = ['$scope', 'ComponentHandler', 'ComponentService'];
+        static $inject = ['$scope', 'ComponentHandler', 'ComponentService', '$window'];
 
         scope:IConfScope;
         componentHandler:ComponentHandler;
+
+        $window:ng.IWindowService;
+
 
         updateList = (components:IComponent[]) => {
             this.scope.deviceList = components;
         };
 
-        constructor($scope:IConfScope, componentHandler:ComponentHandler, componentService:ComponentService) {
+        constructor($scope:IConfScope, componentHandler:ComponentHandler, componentService:ComponentService, $window:ng.IWindowService) {
             this.scope = $scope;
             this.componentHandler = componentHandler;
+            this.$window = $window;
 
             componentService.updateListTask = this.updateList;
 
@@ -82,7 +86,7 @@ module app {
             this.scope.componentListView = 'Aktuatoren';
             this.scope.componentListViewMode = 'A';
 
-            //window.location.href = "#/config/" + this.scope.dropElem.serialNo;
+            this.$window.location.href = "#/config/" + this.scope.dropElem.serialNo;
 
             this.scope.$apply();
         }
