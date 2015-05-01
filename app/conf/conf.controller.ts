@@ -6,9 +6,6 @@
 module app {
     'use strict';
 
-    //import IService = restangular.IService;
-
-
     interface IConfScope extends ng.IScope {
         dropElem: IComponent
 
@@ -25,50 +22,38 @@ module app {
 
     export class ConfCtrl {
         /* @ngInject */
-        static $inject = ['$scope', 'Restangular', 'dropService'];
+        static $inject = ['$scope', 'ComponentHandler', 'ComponentService'];
 
         scope:IConfScope;
-        myService:restangular.IService;
-        dropService:DropService;
+        componentHandler:ComponentHandler;
 
-        constructor($scope:IConfScope, myService:restangular.IService, dropService:DropService) {
+        updateList = (components:IComponent[]) => {
+            this.scope.deviceList = components;
+        };
+
+        constructor($scope:IConfScope, componentHandler:ComponentHandler, componentService:ComponentService) {
             this.scope = $scope;
-            this.myService = myService;
-            this.dropService = dropService;
+            this.componentHandler = componentHandler;
+
+            componentService.updateListTask = this.updateList;
 
             $scope.componentListViewMode = 'S';
             $scope.componentListView = 'Sensoren';
-
-            $scope.dropElem = dropService.getSensor();
 
             $scope.onDrop = () => this.myOnDrop();
             $scope.init = () => this.init();
             $scope.doTask = (c:IComponent) => this.doTask(c);
 
-            this.loadListElem();
+            componentService.updateListTask();
 
             $scope.isConfModeEnabled = () => this.confModeEnabled();
-
         }
 
         private init() {
-            this.myService.one('device/reinit').get().then(
-                (components:IComponent[]) => {
-                    this.scope.deviceList = components;
-                });
-            this.dropService.setSensor(null);
+            this.componentHandler.clearSelection();
             console.log('init (ConfCtrl)');
         }
 
-        private  loadListElem() {
-            var basedevices = this.myService.all('device/devices');
-
-            basedevices
-                .getList()
-                .then((components:IComponent[]) => {
-                    this.scope.deviceList = components;
-                });
-        }
 
         private doTask(c:IComponent) {
             console.log(c);
@@ -89,17 +74,10 @@ module app {
             return hit;
         }
 
+
         private myOnDrop() {
             console.log(this.scope.dropElem.serialNo);
-            this.dropService.setSensor(this.scope.dropElem);
-            this.myService
-                .one('device', this.scope.dropElem.serialNo)
-                .post('basicRegister')
-                .then(
-                (components:IComponent[]) => {
-                    this.scope.deviceList = components;
-                }
-            );
+            this.componentHandler.onSensorDrop(this.scope.dropElem);
 
             this.scope.componentListView = 'Aktuatoren';
             this.scope.componentListViewMode = 'A';

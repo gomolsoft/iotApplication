@@ -1,10 +1,14 @@
 /// <reference path="../../.tmp/typings/tsd.d.ts" />
 
 /// <reference path="main/main.controller.ts" />
-/// <reference path="../app/conf/conf.controller.ts" />
-/// <reference path="../app/conf/sensorconf.controller.ts" />
-/// <reference path="../app/components/navbar/navbar.controller.ts" />
-/// <reference path="../app/conf/DropService.ts" />
+
+/// <reference path="conf/conf.controller.ts" />
+/// <reference path="conf/sensorconf.controller.ts" />
+/// <reference path="conf/component.handler.ts" />
+/// <reference path="conf/component.service.ts" />
+
+/// <reference path="components/navbar/navbar.controller.ts" />
+
 
 interface IComponent {
     name: string
@@ -48,13 +52,17 @@ module app {
             editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
         })
 
-        .service('dropService', DropService)
+        //Service
+        .service('ComponentService', ComponentService)
+        .service('ComponentHandler', ComponentHandler)
 
+        //Controller
       .controller('MainCtrl', MainCtrl)
       .controller('NavbarCtrl', NavbarCtrl)
       .controller('ConfCtrl', ConfCtrl)
         .controller('SensorConfCtrl', SensorConfCtrl)
 
+        //Configuration
         .config(['RestangularProvider',
             (RestangularProvider:restangular.IProvider) => {
                 RestangularProvider.setBaseUrl('http://192.168.0.13:8080');
@@ -76,7 +84,7 @@ module app {
         .state('config', {
             url: '/config',
             templateUrl: 'app/conf/conf.html',
-            controller: 'ConfCtrl',
+            controller: 'ConfCtrl as conf',
             abstract: false,
             /* onEnter: function () {
                 console.log("OnEnter: contacts");
@@ -86,7 +94,7 @@ module app {
         .state('config.edit', {
             url: '/:serialNo',
             templateUrl: 'app/conf/componentEdit.html',
-            controller: 'SensorConfCtrl'
+            controller: 'SensorConfCtrl as sensorConf'
 
         })
 

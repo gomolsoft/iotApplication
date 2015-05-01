@@ -10,47 +10,34 @@ module app {
         onDrop: Function;
 
         dropElem: IComponent
-        init(): void
     }
 
     export class SensorConfCtrl {
         /* @ngInject */
-        static $inject = ['$scope', 'Restangular', 'dropService'];
+        static $inject = ['$scope', 'ComponentHandler'];
 
         scope:ISensorConfScope;
         myService:restangular.IService;
-        dropService:DropService;
+        componentHandler:ComponentHandler;
 
-        constructor($scope:ISensorConfScope, myService:restangular.IService, dropService:DropService) {
+        updateListTask:Function;
+
+        constructor($scope:ISensorConfScope, componentHandler:ComponentHandler) {
             this.scope = $scope;
-            this.myService = myService;
-            this.dropService = dropService;
+            this.componentHandler = componentHandler;
 
-            $scope.dropElem = dropService.getSensor();
+            $scope.dropElem = componentHandler.getSensorComponent();
 
-            $scope.init = () => this.init();
             $scope.onDrop = () => this.myOnDrop();
-
-            console.log('constructor (SensorConfCtrl)');
-        }
-
-        private init() {
-            console.log('init (SensorConfCtrl)');
-        }
-
-        private confModeEnabled():boolean {
-            var hit = false;
-            this.dropService.getSensor();
-
-            return true;
         }
 
         private myOnDrop() {
             console.log(this.scope.dropElem.serialNo);
-            this.dropService.onSensorDrop(this.scope.dropElem);
+            this.componentHandler.onSensorDrop(this.scope.dropElem);
 
             this.scope.$apply();
         }
+
 
     }
 }
