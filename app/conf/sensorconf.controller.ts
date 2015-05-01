@@ -28,12 +28,14 @@ module app {
 
             $scope.dropElem = componentHandler.getSensorComponent();
 
-            $scope.onDrop = () => this.myOnDrop();
+            $scope.onDrop = (sensor:ISensors) => this.myOnDrop(sensor);
         }
 
-        private myOnDrop() {
-            console.log(this.scope.dropElem.serialNo);
-            this.componentHandler.onSensorDrop(this.scope.dropElem);
+        private myOnDrop(sensor:ISensors) {
+            console.log("Aktor:" + this.scope.dropElem.serialNo);
+            console.log("Sensor:" + sensor.name);
+
+            this.componentHandler.onActorDrop(this.scope.dropElem);
 
             this.scope.$apply();
         }
