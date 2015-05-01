@@ -9,8 +9,7 @@ module app {
     interface ISensorConfScope extends ng.IScope {
         onDrop: Function;
 
-        dropElem: IComponent
-        dropSensor: IComponent
+        dropActuator: IComponent
     }
 
     export class SensorConfCtrl {
@@ -27,16 +26,17 @@ module app {
             this.scope = $scope;
             this.componentHandler = componentHandler;
 
-            $scope.dropElem = componentHandler.getSensorComponent();
+            //$scope.dropElem = componentHandler.getSensorComponent();
 
-            $scope.onDrop = (sensor:ISensors) => this.myOnDrop(sensor);
+
+            $scope.onDrop = (a:any, b:any, sensor:ISensors) => this.myOnDrop(sensor);
         }
 
         private myOnDrop(sensor:ISensors) {
-            console.log("Aktor:" + this.scope.dropSensor.serialNo);
+            console.log("Aktor:" + this.scope.dropActuator.serialNo);
             console.log("Sensor:" + sensor.name);
 
-            this.componentHandler.onActorDrop(this.scope.dropSensor);
+            this.componentHandler.onActorDrop(this.scope.dropActuator);
 
             this.scope.$apply();
         }
