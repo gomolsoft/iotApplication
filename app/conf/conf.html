@@ -126,9 +126,10 @@
             </div>
         </div>
 
-        <!-- Aktualtoren -->
+        <!-- Aktuatoren -->
         <div class="row" ng-if="componentListViewMode=='A'">
             <div class="col-md-1">Aktuatoren</div>
+
             <div class="col-md-11" style='height:200px;'>
                 <div ng-repeat="component in deviceList | orderBy: 'name' | filter: {configMode:'UNCONFIGURED', actors:'!'}"
                      class="col-xs-4 col-md-3"
@@ -139,7 +140,8 @@
                             data-drag="true"
                             data-jqyoui-options="{deepCopy: 'true', revert: 'invalid'}"
                             ng-model="component"
-                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:false}"
+                            jqyoui-draggable="{snapMode: 'inner', snap:'true', animate:false, onStart:'startCallback(component, $index)'}"
+
                             >
                         <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
                         {{component.name}}

@@ -7,19 +7,24 @@
     <div class="row">
         <div class="col-md-10 ">
             <div class="col-md-1"></div>
+
             <div class="col-md-5 panel panel-default"
                  style="margin: 5px; margin-bottom:10px;"
                  ng-repeat="sensor in dropElem.sensors"
-                 data-drop="true"
-                 data-jqyoui-options
-                 ng-model="dropActuator"
-                 jqyoui-droppable="{onDrop:'onDrop(sensor)'}"
                     >
+                <!--  -->
+                <div class=""
+                     data-drop="true"
+                     data-jqyoui-options
+                     ng-model="dropElem"
+                     jqyoui-droppable="{onDrop:'onDrop'}"
+                        >
 
-                <div class="vertical-center drop-text ">
-                    Bitte hier einen Aktuator für <span class="label label-primary">{{ sensor.name }}</span> ziehen
+                    <div class="vertical-center drop-text ">
+                        Bitte hier einen Aktuator für <span class="label label-primary">{{ sensor.name }}</span> ziehen
+                    </div>
+
                 </div>
-
             </div>
         </div>
 

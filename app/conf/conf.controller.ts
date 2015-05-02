@@ -11,6 +11,8 @@ module app {
 
         onDrop: Function
         doTask(c:IComponent): void
+        startCallback (event, ui, component:IComponent): void
+
         isConfModeEnabled(): boolean
 
         deviceList: IComponent[]
@@ -45,6 +47,9 @@ module app {
             $scope.componentListView = 'Sensoren';
 
             $scope.onDrop = () => this.myOnDrop();
+
+            $scope.startCallback = (event, ui, component:IComponent) => this.startCallback(event, ui, component);
+
             $scope.init = () => this.init();
             $scope.doTask = (c:IComponent) => this.doTask(c);
 
@@ -89,6 +94,10 @@ module app {
             this.$window.location.href = "#/config/" + this.scope.dropElem.serialNo;
 
             this.scope.$apply();
+        }
+
+        private startCallback(event, ui, component:IComponent) {
+            console.log('You started draggin: ' + component.serialNo);
         }
     }
 }
