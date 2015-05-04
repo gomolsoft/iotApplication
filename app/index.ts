@@ -8,7 +8,7 @@
 /// <reference path="conf/component.service.ts" />
 
 /// <reference path="components/navbar/navbar.controller.ts" />
-
+/// <reference path="conf/main.conf.ctrl.ts" />
 
 interface IComponent {
     name: string
@@ -44,6 +44,7 @@ module app {
         'ngSanitize',
         'restangular',
         'ui.router',
+        'ui.bootstrap',
         'mgcrea.ngStrap',
         'ngDragDrop',
         'xeditable'])
@@ -61,6 +62,7 @@ module app {
       .controller('NavbarCtrl', NavbarCtrl)
       .controller('ConfCtrl', ConfCtrl)
         .controller('SensorConfCtrl', SensorConfCtrl)
+        .controller('MainConfCtrl', MainConfCtrl)
 
         //Configuration
         .config(['RestangularProvider',
@@ -81,10 +83,22 @@ module app {
 
         })
 
-        .state("main", {abtract: true, url: "/myConfig", templateUrl: "app/conf/main.conf.html"})
-        .state("conf.sensor", {url: "/sensor", templateUrl: "conf.sensor.html"})
-        .state("conf.aktor", {url: "/aktor", templateUrl: "conf.aktor.html"})
+        .state("conf", {
+            controller: 'MainConfCtrl',
+            abtract: false,
+            url: '/myConfig',
+            templateUrl: 'app/conf/main.conf.html'
+        })
 
+        .state("conf.sensor", {
+            url: "/sensor",
+            templateUrl: 'app/conf/conf.sensor.html'
+        })
+
+        .state("conf.aktor", {
+            url: "/aktor",
+            templateUrl: 'app/conf/conf.aktor.html'
+        })
 
         .state('config', {
             url: '/config',

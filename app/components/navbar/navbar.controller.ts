@@ -4,13 +4,18 @@ module app {
   'use strict';
 
   interface INavbarScope extends ng.IScope {
-    date: Date
+    unreadMessages: number
   }
 
   export class NavbarCtrl {
+
     /* @ngInject */
-    constructor ($scope: INavbarScope) {
-      $scope.date = new Date();
+    static $inject = ['$scope', 'ComponentService'];
+
+    constructor($scope:INavbarScope, componentService:ComponentService) {
+      componentService.unconfirmedMessages((unreadMsg) => {
+        $scope.unreadMessages = unreadMsg
+      });
     }
   }
 

@@ -11,7 +11,9 @@
         <li class="active"><a ng-href="#">Home</a></li>
         <li><a ng-href="#">About</a></li>
         <li><a ng-href="#">Contact</a></li>
-        <li><a ui-sref="config" ui-sref-active="active" ui-sref-opts="{reload: true}">Konfiguration</a></li>
+        <li><a ui-sref="conf" ui-sref-active="active" ui-sref-opts="{reload: false}">Main-Conf <span class="badge">{{unreadMessages}}</span></a>
+        </li>
+        <li><a ui-sref="config" ui-sref-opts="{reload: true}">Konfiguration</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

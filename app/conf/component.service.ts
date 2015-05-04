@@ -23,10 +23,22 @@ class ComponentService {
             .then((components:IComponent[]) => this.updateListTask(components));
     }
 
-    loadListElem() {
+    loadByType(type:string) {
         this.myService.all('device/devices')
             .getList()
             .then((components:IComponent[]) => this.updateListTask(components));
+    }
+
+    loadListElem(updateCb:(components:IComponent[]) => void, compoType?:string) {
+        var link = 'device/';
+        if (compoType == undefined) {
+            link = link + 'devices';
+        } else {
+            link = link + 'bytype/' + compoType;
+        }
+        this.myService.all(link)
+            .getList()
+            .then((components:IComponent[]) => updateCb(components));
     }
 
     onSensorDrop(dropElement:IComponent) {
@@ -34,5 +46,12 @@ class ComponentService {
             .one('device', dropElement.serialNo)
             .post('basicRegister')
             .then((components:IComponent[]) => this.updateListTask(components));
+    }
+
+    unconfirmedMessages(updateCb:(msgCnt:number) => void) {
+        this.myService
+            .one('device/messages')
+            .get()
+            .then((msgCnt:number) => updateCb(msgCnt));
     }
 }
