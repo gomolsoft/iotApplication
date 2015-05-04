@@ -81,6 +81,11 @@ module app {
 
         })
 
+        .state("main", {abtract: true, url: "/myConfig", templateUrl: "app/conf/main.conf.html"})
+        .state("conf.sensor", {url: "/sensor", templateUrl: "conf.sensor.html"})
+        .state("conf.aktor", {url: "/aktor", templateUrl: "conf.aktor.html"})
+
+
         .state('config', {
             url: '/config',
             templateUrl: 'app/conf/conf.html',

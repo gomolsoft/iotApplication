@@ -5,11 +5,19 @@
     <div class="jumbotron"><h2>Configuration</h2> der Devices
     </div>
 
-    <div class="container">
-        <div class="navbar">
+    <tabset>
+        <tab
+                ng-repeat="t in tabs"
+                heading="{{t.heading}}"
+                select="go(t.route)"
+                active="t.active">
+        </tab>
+    </tabset>
 
-        </div>
-    </div>
+    <h2>View:</h2>
+
+    <div ui-view></div>
+
 
     <div class="footer">
         <p>With ♥ from <a href="//#">@Mold-Soft GmbH</a></p>
