@@ -4,6 +4,7 @@
 
 /// <reference path="conf/conf.controller.ts" />
 /// <reference path="conf/sensorconf.controller.ts" />
+/// <reference path="conf/controller/logic.conf.ctrl.ts" />
 
 /// <reference path="service/component.handler.ts" />
 /// <reference path="service/component.service.ts" />
@@ -93,6 +94,7 @@ module app {
       .controller('ConfCtrl', ConfCtrl)
         .controller('SensorConfCtrl', SensorConfCtrl)
         .controller('MainConfCtrl', MainConfCtrl)
+        .controller('LogicConfCtrl', LogicConfCtrl)
 
         //Configuration
         .config(['RestangularProvider',
@@ -105,7 +107,10 @@ module app {
             ($stateProvider:ng.ui.IStateProvider,
              $urlRouterProvider:ng.ui.IUrlRouterProvider) {
 
+
     $stateProvider
+
+
         .state('home', {
             url: '/',
             templateUrl: 'app/main/main.html',
@@ -131,6 +136,24 @@ module app {
                     templateUrl: 'app/conf/html/conf.aktor.html'
         })
 
+                .state("conf.logic", {
+                    url: '/logic/:iotId',
+                    templateUrl: 'app/conf/html/conf.logic.html',
+                    controller: 'LogicConfCtrl'
+                })
+
+                .state("conf.logic.bind", {
+                    url: '/:sensorName',
+                    templateUrl: 'app/conf/html/conf.logic.bind.html',
+                    controller: 'LogicConfCtrl'
+                })
+
+                .state("conf.logic.bind.action", {
+                    url: '/:aktorIoT',
+                    templateUrl: 'app/conf/html/conf.logic.action.html',
+                    controller: 'LogicConfCtrl'
+                })
+
 // old
         .state('config', {
             url: '/config',
@@ -152,7 +175,12 @@ module app {
 
     ;
 
-    $urlRouterProvider.otherwise('/');
+            $urlRouterProvider
+                // The `when` method says if the url is ever the 1st param, then redirect to the 2nd param
+                // Here we are just setting up some convenience urls.
+                .when('/l/:iotId', '/logic/:iotId')
+
+                .otherwise('/')
 
         })
 ;

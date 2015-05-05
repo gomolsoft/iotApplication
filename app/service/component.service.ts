@@ -75,4 +75,11 @@ class ComponentService {
             this.locationService.loadRoomByComponent(c);
         });
     }
+
+    loadComponentBySerialNo(serialNo:string, updateCb:(component:IComponent) => void) {
+        this.myService
+            .one('device', serialNo)
+            .get()
+            .then((c:IComponent) => updateCb(c));
+    }
 }
