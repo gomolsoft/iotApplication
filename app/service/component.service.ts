@@ -5,28 +5,35 @@
 
 class ComponentService {
     myService:restangular.IService;
+    locationService:LocationService;
 
     updateListTask:Function;
 
     /* @ngInject */
-    static $inject = ['Restangular'];
+    static $inject = ['Restangular', 'LocationService'];
 
-    constructor(myService:restangular.IService) {
+    constructor(myService:restangular.IService, locationService:LocationService) {
         this.myService = myService;
-
+        this.locationService = locationService;
 
     }
 
     reinit() {
         this.myService.one('device/reinit')
             .get()
-            .then((components:IComponent[]) => this.updateListTask(components));
+            .then((components:IComponent[]) => {
+                this.enritchAll(components);
+                this.updateListTask(components)
+            });
     }
 
     loadByType(type:string) {
         this.myService.all('device/devices')
             .getList()
-            .then((components:IComponent[]) => this.updateListTask(components));
+            .then((components:IComponent[]) => {
+                this.enritchAll(components);
+                this.updateListTask(components)
+            });
     }
 
     loadListElem(updateCb:(components:IComponent[]) => void, compoType?:string) {
@@ -38,14 +45,22 @@ class ComponentService {
         }
         this.myService.all(link)
             .getList()
-            .then((components:IComponent[]) => updateCb(components));
+            .then(
+            (components:IComponent[]) => {
+                this.enritchAll(components);
+                updateCb(components);
+            }
+        );
     }
 
     onSensorDrop(dropElement:IComponent) {
         this.myService
             .one('device', dropElement.serialNo)
             .post('basicRegister')
-            .then((components:IComponent[]) => this.updateListTask(components));
+            .then((components:IComponent[]) => {
+                this.enritchAll(components);
+                this.updateListTask(components)
+            });
     }
 
     unconfirmedMessages(updateCb:(msgCnt:number) => void) {
@@ -53,5 +68,11 @@ class ComponentService {
             .one('device/messages')
             .get()
             .then((msgCnt:number) => updateCb(msgCnt));
+    }
+
+    enritchAll(components:IComponent[]) {
+        components.forEach((c:IComponent, idx:number) => {
+            this.locationService.loadRoomByComponent(c);
+        });
     }
 }

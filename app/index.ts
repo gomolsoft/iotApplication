@@ -4,8 +4,10 @@
 
 /// <reference path="conf/conf.controller.ts" />
 /// <reference path="conf/sensorconf.controller.ts" />
+
 /// <reference path="service/component.handler.ts" />
 /// <reference path="service/component.service.ts" />
+/// <reference path="service/location.service.ts" />
 
 /// <reference path="components/navbar/navbar.controller.ts" />
 /// <reference path="conf/controller/main.conf.ctrl.ts" />
@@ -24,6 +26,8 @@ interface IComponent {
     actors: IotInterface[]
     internetDatas: IotInterface[]
 
+    //per late Binding
+    room: string
 }
 
 interface IotInterface {
@@ -81,6 +85,7 @@ module app {
         //Service
         .service('ComponentService', ComponentService)
         .service('ComponentHandler', ComponentHandler)
+        .service('LocationService', LocationService)
 
         //Controller
       .controller('MainCtrl', MainCtrl)

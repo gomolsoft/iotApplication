@@ -8,12 +8,12 @@ class ComponentHandler {
 
     component:IComponent;
 
-
     /* @ngInject */
     static $inject = ['ComponentService'];
-
     constructor(componentService:ComponentService) {
         this.componentService = componentService;
+
+
         this.component = null;
     }
 
