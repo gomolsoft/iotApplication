@@ -4,11 +4,11 @@
 
 /// <reference path="conf/conf.controller.ts" />
 /// <reference path="conf/sensorconf.controller.ts" />
-/// <reference path="conf/component.handler.ts" />
-/// <reference path="conf/component.service.ts" />
+/// <reference path="service/component.handler.ts" />
+/// <reference path="service/component.service.ts" />
 
 /// <reference path="components/navbar/navbar.controller.ts" />
-/// <reference path="conf/main.conf.ctrl.ts" />
+/// <reference path="conf/controller/main.conf.ctrl.ts" />
 
 
 interface ILocation {
@@ -108,23 +108,25 @@ module app {
 
         })
 
+//Configuration-App
         .state("conf", {
             controller: 'MainConfCtrl',
             abtract: false,
             url: '/myConfig',
-            templateUrl: 'app/conf/main.conf.html'
+                    templateUrl: 'app/conf/html/main.conf.html'
         })
 
         .state("conf.sensor", {
             url: "/sensor",
-            templateUrl: 'app/conf/conf.sensor.html'
+                    templateUrl: 'app/conf/html/conf.sensor.html'
         })
 
         .state("conf.aktor", {
             url: "/aktor",
-            templateUrl: 'app/conf/conf.aktor.html'
+                    templateUrl: 'app/conf/html/conf.aktor.html'
         })
 
+// old
         .state('config', {
             url: '/config',
             templateUrl: 'app/conf/conf.html',

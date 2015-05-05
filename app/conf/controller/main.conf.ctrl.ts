@@ -1,7 +1,7 @@
 /**
  * Created by sandro on 04.05.15.
  */
-/// <reference path="../index.ts" />
+/// <reference path="../../index.ts" />
 
 module app {
     'use strict';
