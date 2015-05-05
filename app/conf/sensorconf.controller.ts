@@ -29,10 +29,10 @@ module app {
             //$scope.dropElem = componentHandler.getSensorComponent();
 
 
-            $scope.onDrop = (a:any, b:any, sensor:ISensors) => this.myOnDrop(sensor);
+            $scope.onDrop = (a:any, b:any, sensor:IotInterface) => this.myOnDrop(sensor);
         }
 
-        private myOnDrop(sensor:ISensors) {
+        private myOnDrop(sensor:IotInterface) {
             console.log("Aktor:" + this.scope.dropActuator.serialNo);
             console.log("Sensor:" + sensor.name);
 
