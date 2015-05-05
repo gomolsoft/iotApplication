@@ -10,29 +10,54 @@
 /// <reference path="components/navbar/navbar.controller.ts" />
 /// <reference path="conf/main.conf.ctrl.ts" />
 
+
+interface ILocation {
+    locationName: string
+    serialNos: string[]
+}
+
 interface IComponent {
     name: string
     serialNo: string
-    configured: boolean
     configMode: string
-    sensors: ISensors[]
+    sensors: IotInterface[]
+    actors: IotInterface[]
+    internetDatas: IotInterface[]
+
 }
 
-interface ISensors {
+interface IotInterface {
     name: string
-    sensorType: string
     properties: IProperty[]
+
 }
 
 interface IProperty {
     name: string
 
-    rangeFrom: number
-    rangeTo: number
-    unityName: string
+}
+
+interface ILogicBrick {
+    input: ICondition;
+    output: IActivation;
 
 }
 
+interface ICondition {
+    component: IComponent
+    iotInterface: IotInterface
+
+    conditionValue: any;
+    condition: string ;
+
+}
+
+interface IActivation {
+    component: IComponent
+    iotInterface: IotInterface
+
+    conditionValue: any;
+}
 
 module app {
   'use strict';
