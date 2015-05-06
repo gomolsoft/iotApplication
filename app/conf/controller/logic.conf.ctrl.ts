@@ -15,7 +15,6 @@ module app {
 
     interface ILogicConfScope extends ng.IScope {
         serialNo: string
-        sensorName:string
         sensorIot: IComponent
 
         actors: IComponent[]
@@ -33,7 +32,6 @@ module app {
             this.scope = $scope;
             this.state = $state;
             this.scope.serialNo = $stateParams.iotId;
-            this.scope.sensorName = $stateParams.sensorName;
             this.componentService = componentService;
 
             componentService

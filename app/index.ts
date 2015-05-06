@@ -5,6 +5,7 @@
 /// <reference path="conf/conf.controller.ts" />
 /// <reference path="conf/sensorconf.controller.ts" />
 /// <reference path="conf/controller/logic.conf.ctrl.ts" />
+/// <reference path="conf/controller/bind.conf.ctrl.ts" />
 
 /// <reference path="service/component.handler.ts" />
 /// <reference path="service/component.service.ts" />
@@ -38,7 +39,7 @@ interface IotInterface {
 }
 
 interface IProperty {
-    name: string
+    name: string // NUMERIC, SEQUENCE, STRING, BOOLEAN
 
 }
 
@@ -95,6 +96,7 @@ module app {
         .controller('SensorConfCtrl', SensorConfCtrl)
         .controller('MainConfCtrl', MainConfCtrl)
         .controller('LogicConfCtrl', LogicConfCtrl)
+        .controller('LogicBindConfCtrl', LogicBindConfCtrl)
 
         //Configuration
         .config(['RestangularProvider',
@@ -151,7 +153,7 @@ module app {
                 .state("conf.logic.bind.action", {
                     url: '/:aktorIoT',
                     templateUrl: 'app/conf/html/conf.logic.action.html',
-                    controller: 'LogicConfCtrl'
+            controller: 'LogicBindConfCtrl'
                 })
 
 // old
