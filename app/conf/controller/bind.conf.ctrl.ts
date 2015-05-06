@@ -15,13 +15,19 @@ module app {
     }
 
     interface ILogicConfScope extends ng.IScope {
-        sensorName:IotInterface
+        sensorName:string
 
         sensorIot: IComponent
         actorIot: IComponent
 
         activation: IActivation
         condition: ICondition
+    }
+
+    class KeyPair {
+        constructor(private key:string, display:string) {
+
+        }
     }
 
     class Condition implements ICondition {
@@ -31,12 +37,35 @@ module app {
         conditionValue:any;
         condition:string;
 
-        public getConditions() {
-            //TODO:component
+        valueProp:IProperty;
+
+        public getConditions():KeyPair[] {
+            var conditions:KeyPair[];
+            conditions = [];
+
+            if (this.valueProp.valuePropertyType == 'NUMERIC') {
+                conditions.push(new KeyPair('Gleich', 'EQ'));
+                conditions.push(new KeyPair('Größer', 'GT'));
+                conditions.push(new KeyPair('Größer oder gleich', 'TE'));
+                conditions.push(new KeyPair('Kleiner', 'LT'));
+                conditions.push(new KeyPair('Kleiner oder gleich', 'LE'));
+            }
+
+            return conditions;
         }
 
-        constructor(component:IComponent) {
-            this.component = component
+        constructor(component:IComponent, sensorName:string) {
+            this.component = component;
+            component.sensors.forEach((iotI:IotInterface, idx:number) => {
+                if (iotI.name == sensorName) {
+                    iotI.properties.forEach((prop:IProperty, idx:number) => {
+                            if (prop.name == 'VALUEPROPERTY')
+                                this.valueProp = prop;
+
+                        }
+                    )
+                }
+            })
         }
     }
 
@@ -63,9 +92,9 @@ module app {
             this.scope = $scope;
             this.state = $state;
 
-            this.scope.activation;
+            //this.scope.activation;
 
-            this.scope.sensorName.name = $stateParams.sensorName;
+            this.scope.sensorName = $stateParams.sensorName;
             this.componentService = componentService;
 
             componentService
@@ -73,7 +102,7 @@ module app {
                 $stateParams.iotId, (
                     (c:IComponent)=> {
                         this.scope.sensorIot = c;
-                        this.scope.activation = new Activation(c);
+                        this.scope.condition = new Condition(c, this.scope.sensorName);
                     } ));
 
             componentService

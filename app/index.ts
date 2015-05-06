@@ -7,6 +7,8 @@
 /// <reference path="conf/controller/logic.conf.ctrl.ts" />
 /// <reference path="conf/controller/bind.conf.ctrl.ts" />
 
+/// <reference path="conf/controller/logic.directive.ts" />
+
 /// <reference path="service/component.handler.ts" />
 /// <reference path="service/component.service.ts" />
 /// <reference path="service/location.service.ts" />
@@ -35,12 +37,12 @@ interface IComponent {
 interface IotInterface {
     name: string
     properties: IProperty[]
-
 }
 
 interface IProperty {
     name: string // NUMERIC, SEQUENCE, STRING, BOOLEAN
 
+    valuePropertyType?: string
 }
 
 interface ILogicBrick {
@@ -68,6 +70,8 @@ interface IActivation {
 module app {
   'use strict';
 
+    //export var directives = angular.module('app.directives',[]);
+
     angular.module('app', [
         'ngAnimate',
         'ngCookies',
@@ -78,7 +82,11 @@ module app {
         'ui.bootstrap',
         'mgcrea.ngStrap',
         'ngDragDrop',
-        'xeditable'])
+        'xeditable',
+
+        //myDirective
+//        'app.directives'
+    ])
 
         .run(function (editableOptions) {
             editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
@@ -104,6 +112,9 @@ module app {
                 RestangularProvider.setBaseUrl('http://192.168.0.13:8080');
             }
         ])
+
+        .directive('myDirective', LogicDirective)
+
 
       .config(function
             ($stateProvider:ng.ui.IStateProvider,
