@@ -113,7 +113,7 @@ module app {
             }
         ])
 
-        .directive('myDirective', LogicDirective)
+        .directive('logicSensor', LogicDirective)
 
 
       .config(function

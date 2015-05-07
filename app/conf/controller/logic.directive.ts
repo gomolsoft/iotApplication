@@ -7,13 +7,27 @@
 module app {
     'use strict';
 
-    export var LogicDirective = (componentService:ComponentService):ng.IDirective => {
+    export var LogicDirective = (componentService:ComponentService, componentHandler:ComponentHandler, compile):ng.IDirective => {
         return {
-            link: () => {
-                console.log("YYYYYYYYYYY");
-            }
+            restrict: 'E',
+
+            replace: false,
+
+            scope: {
+                component: '='
+            },
+
+            link: (scope, elem, attrs) => {
+                /*
+                 componentService.loadComponentBySerialNo(elem.serialNo, (component:IComponent) => {
+                 });
+                 */
+                console.log(attrs);
+            },
+
+            template: 'Hello, {{component.name}}'
         };
     };
 
-    LogicDirective.$inject = ['ComponentService'];
+    LogicDirective.$inject = ['ComponentService', 'ComponentHandler', '$compile'];
 }
