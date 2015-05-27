@@ -16,6 +16,11 @@
 /// <reference path="components/navbar/navbar.controller.ts" />
 /// <reference path="conf/controller/main.conf.ctrl.ts" />
 
+interface IDevice {
+    serialNo: string
+    description: string
+
+}
 
 interface ILocation {
     locationName: string
