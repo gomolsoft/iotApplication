@@ -84,7 +84,7 @@ module app {
         'ngSanitize',
         'restangular',
         'ui.router',
-        'ui.bootstrap',
+        //'ui.bootstrap',
         'mgcrea.ngStrap',
         'ngDragDrop',
         'xeditable',
@@ -103,9 +103,9 @@ module app {
         .service('LocationService', LocationService)
 
         //Controller
-      .controller('MainCtrl', MainCtrl)
-      .controller('NavbarCtrl', NavbarCtrl)
-      .controller('ConfCtrl', ConfCtrl)
+        .controller('MainCtrl', MainCtrl)
+        .controller('NavbarCtrl', NavbarCtrl)
+        .controller('ConfCtrl', ConfCtrl)
         .controller('SensorConfCtrl', SensorConfCtrl)
         .controller('MainConfCtrl', MainConfCtrl)
         .controller('LogicConfCtrl', LogicConfCtrl)
@@ -114,7 +114,7 @@ module app {
         //Configuration
         .config(['RestangularProvider',
             (RestangularProvider:restangular.IProvider) => {
-                RestangularProvider.setBaseUrl('http://192.168.0.13:8080');
+                RestangularProvider.setBaseUrl('http://192.168.0.14:8080');
             }
         ])
 
