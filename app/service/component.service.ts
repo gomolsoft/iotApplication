@@ -53,6 +53,23 @@ class ComponentService {
         );
     }
 
+    loadListElemv2(updateCb:(components:IComponent[]) => void, compoType?:string) {
+        var link = 'myDevice/';
+        if (compoType == undefined) {
+            link = link + 'devices';
+        } else {
+            link = link + 'bytype/' + compoType;
+        }
+        this.myService.all(link)
+            .getList()
+            .then(
+            (components:IComponent[]) => {
+                this.enritchAll(components);
+                updateCb(components);
+            }
+        );
+    }
+
     onSensorDrop(dropElement:IComponent) {
         this.myService
             .one('device', dropElement.serialNo)
