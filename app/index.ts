@@ -16,7 +16,11 @@
 /// <reference path="components/navbar/navbar.controller.ts" />
 /// <reference path="conf/controller/main.conf.ctrl.ts" />
 
-interface IDevice {
+interface WithRoom {
+    room: string
+}
+
+interface IDevice extends WithRoom{
     serialNo: string
     description: string
 

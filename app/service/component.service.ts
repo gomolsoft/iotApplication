@@ -53,7 +53,7 @@ class ComponentService {
         );
     }
 
-    loadListElemv2(updateCb:(components:IComponent[]) => void, compoType?:string) {
+    loadListElemv2(updateCb:(components:IDevice[]) => void, compoType?:string) {
         var link = 'myDevice/';
         if (compoType == undefined) {
             link = link + 'devices';
@@ -63,8 +63,8 @@ class ComponentService {
         this.myService.all(link)
             .getList()
             .then(
-            (components:IComponent[]) => {
-                this.enritchAll(components);
+            (components:IDevice[]) => {
+                this.enritchAll2(components);
                 updateCb(components);
             }
         );
@@ -87,6 +87,11 @@ class ComponentService {
             .then((msgCnt:number) => updateCb(msgCnt));
     }
 
+    enritchAll2(components:IDevice[]) {
+        components.forEach((c:IDevice, idx:number) => {
+            this.locationService.loadRoomByComponent2(c);
+        });
+    }
     enritchAll(components:IComponent[]) {
         components.forEach((c:IComponent, idx:number) => {
             this.locationService.loadRoomByComponent(c);

@@ -19,6 +19,9 @@ module app {
 
         sensors: IComponent[]
         actors: IComponent[]
+
+        device: IDevice[]
+
     }
 
     export class MainConfCtrl {
@@ -48,10 +51,16 @@ module app {
             $scope.go = (route) => this.go(route);
             $scope.active = (route):boolean =>this.active(route);
 
-            componentService.loadListElemv2((components) => this.updateSensors(components));
+            componentService.loadListElemv2((components) => this.updateSensors2(components));
             //componentService.loadListElem((components) => this.updateSensors(components), 'sensors');
             //componentService.loadListElem((components) => this.updateActors(components), 'actors');
 
+        }
+
+        updateSensors2(components:IDevice[]) {
+            this.scope.device = components;
+            //this.scope.sensors[0].properties['Feuchtigkeit'][0].propertyName
+            //this.componentService.loadByType('sensors')
         }
 
         updateSensors(components:IComponent[]) {

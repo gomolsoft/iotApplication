@@ -24,5 +24,14 @@ class LocationService {
             });
 
     }
+    loadRoomByComponent2(component:IDevice) {
+        this.myService
+            .one(this.rootLink + '/device', component.serialNo)
+            .get()
+            .then((location:ILocation) => {
+                component.room = location.locationName
+            });
+
+    }
 
 }
